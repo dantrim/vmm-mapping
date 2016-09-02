@@ -49,6 +49,8 @@ class DaqConfiguration {
         bool checkLoadedConnectors();
         bool checkLoadedBoards();
 
+        bool loadMaps();
+
         DetectorConfig& detConfig() { return *m_detConfig; }
         nsw_map::boardIpToIdMap& boardMap() { return m_boardMap; }
 

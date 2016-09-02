@@ -18,7 +18,7 @@
 
 //nsw
 class DaqConfiguration;
-//class Element;
+#include "element.h"
 
 //std/stl
 #include <string>
@@ -26,12 +26,12 @@ class DaqConfiguration;
 
 
 #warning MAP TYPES COMMENTED OUT
-//namespace nsw_map {
-//    // { FEB CHANNEL : ELEMENT }
-//    typedef std::unordered_map<int, Element> febChanToElementMap;
-//    // { FEB ID : { febChanToElementMap } }
-//    typedef std::unordered_map<int, febChanToElementMap> febIdToChannelMap;
-//}
+namespace nsw_map {
+    // { FEB CHANNEL : ELEMENT }
+    typedef std::unordered_map<int, Element> febChanToElementMap;
+    // { FEB ID : { febChanToElementMap } }
+    typedef std::unordered_map<int, febChanToElementMap> febIdToChannelMap;
+}
 
 
 class MapHandler
@@ -44,6 +44,8 @@ class MapHandler
         bool loadDaqConfiguration(std::string filename);
         DaqConfiguration& config() { return *m_daqConfig; }
 
+        bool buildMapping();
+
 
     private :
         bool m_dbg;
@@ -52,7 +54,7 @@ class MapHandler
 
         DaqConfiguration* m_daqConfig;
 
-//        nsw_map::febIdToChannelMap m_daq_map;
+        nsw_map::febIdToChannelMap m_daq_map;
 
 
 }; // class

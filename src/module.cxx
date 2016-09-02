@@ -71,3 +71,15 @@ bool Module::load(const boost::property_tree::ptree::value_type pt)
 
     return ok;
 }
+// ------------------------------------------------------------------------ //
+bool Module::hasBoardId(int id)
+{
+    bool hasit = false;
+    for(auto& layer : layers()) {
+        if(layer.hasBoardId(id)) {
+            hasit = true;
+            break;
+        }
+    }
+    return hasit;
+}

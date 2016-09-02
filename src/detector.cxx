@@ -66,4 +66,16 @@ bool Detector::load(const boost::property_tree::ptree::value_type pt)
 
     return ok;
 }
+// ------------------------------------------------------------------------ //
+bool Detector::hasBoardId(int id)
+{
+    bool hasit = false;
+    for(auto& module : modules()) {
+        if(module.hasBoardId(id)) { 
+            hasit = true;
+            break;
+        }
+    }
+    return hasit;
+}
 

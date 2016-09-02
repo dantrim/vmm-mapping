@@ -47,6 +47,8 @@ class Board {
         std::vector<Chip>& chips() { return m_chips; }
         int nChips() { return (int)m_chips.size(); }
 
+        std::string chipNameFromId(int chipId);
+
     private :
         bool m_dbg;
         int m_id;

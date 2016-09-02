@@ -26,6 +26,9 @@ class Module {
         // load the module
         bool load(const boost::property_tree::ptree::value_type pt);
 
+        // does this module have the board with ID id?
+        bool hasBoardId(int id);
+
         std::string name() { return m_name; }
         std::string type() { return m_type; }
         std::string identifier() { return m_identifier; }

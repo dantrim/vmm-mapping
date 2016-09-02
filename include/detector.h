@@ -42,6 +42,9 @@ class Detector {
         // load this detector
         bool load(const boost::property_tree::ptree::value_type pt);
 
+        // does this detector have the board with ID id?
+        bool hasBoardId(int id);
+
         std::string name() { return m_name; }
         std::string identifier() { return m_identifier; }
 

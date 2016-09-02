@@ -11,6 +11,7 @@ int main(int argc, char* argv[]) {
 
     MapHandler* handler = new MapHandler();
     handler->loadDaqConfiguration("/Users/dantrim/workarea/NSW/myreadout/NEWMAPPING/testMapping/DAQ_config_TZ.xml");
+    handler->buildMapping();
     
     return 0;
 }

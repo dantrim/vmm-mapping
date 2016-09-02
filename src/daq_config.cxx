@@ -84,6 +84,10 @@ bool DaqConfiguration::loadDetectorSetup()
     if(ok)
         ok = checkSetup();
 
+    // load the data from the elx/chamber maps
+    if(ok)
+        ok = loadMaps();
+
     return ok;
 }
 // ------------------------------------------------------------------------ //
@@ -370,5 +374,37 @@ bool DaqConfiguration::checkLoadedBoards()
     }
 
     return ok;
+}
+// ------------------------------------------------------------------------ //
+bool DaqConfiguration::loadMaps()
+{
+    cout << "-------------------------------------------------------------- " << endl;
+    cout << "Loading electronics and detector maps..." << endl;
+    bool ok = true;
 
+    for(auto& detector : m_detConfig->detectors()) {
+        for(auto& module : detector.modules()) {
+            for(auto& layer : module.layers()) {
+                for(auto& connector : layer.connectors()) {
+
+                    if(!connector.fillElxMap()) {
+                        ok = false;
+                    }
+                    if(!connector.fillChamberMap()) {
+                        ok = false;
+                    }
+                } // connector
+            } // layer
+        } // module
+    } // detector
+
+    if(ok) {
+        cout << " > Loading maps: successful!" << endl;
+    }
+    else {
+        cout << " > Loading maps: failed" << endl;
+    }
+
+    cout << "-------------------------------------------------------------- " << endl;
+    return ok;
 }

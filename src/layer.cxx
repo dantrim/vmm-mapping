@@ -73,3 +73,15 @@ bool Layer::load(const boost::property_tree::ptree::value_type pt)
 
     return ok;
 }
+// ------------------------------------------------------------------------ //
+bool Layer::hasBoardId(int id)
+{
+    bool hasit = false;
+    for(auto& connector: connectors()) {
+        if(connector.hasBoardId(id)) {
+            hasit = true;
+            break;
+        }
+    }
+    return hasit;
+}

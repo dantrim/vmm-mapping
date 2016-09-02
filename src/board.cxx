@@ -124,3 +124,17 @@ bool Board::load(const boost::property_tree::ptree::value_type pt)
 
     return ok;
 }
+// ------------------------------------------------------------------------ //
+string Board::chipNameFromId(int id)
+{
+    // start at 0
+    string out = "";
+    if(id > (nChips()-1)) {
+        cout << "Board::chipNameFromId    Invalid chip id (" << id << ")" << endl;
+        return out;
+    }
+    if(nChips()>0) {
+        return chips().at(id).name();
+    }
+    return out;
+}

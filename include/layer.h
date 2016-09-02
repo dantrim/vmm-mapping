@@ -29,6 +29,9 @@ class Layer {
         // load this layer
         bool load(const boost::property_tree::ptree::value_type pt);
 
+        // does this layer have the board with ID id?
+        bool hasBoardId(int id);
+
         std::vector<Connector>& connectors() { return m_connectors; }
         int nConnectors() { return (int)m_connectors.size(); }
 
