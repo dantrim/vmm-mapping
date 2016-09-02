@@ -18,8 +18,11 @@ using namespace std;
 Detector::Detector() :
     m_dbg(false),
     m_id(-1),
-    m_map_dir("")
+    m_map_dir(""),
+    m_name(""),
+    m_identifier("")
 {
+    m_modules.clear();
 }
 // ------------------------------------------------------------------------ //
 bool Detector::load(const boost::property_tree::ptree::value_type pt)

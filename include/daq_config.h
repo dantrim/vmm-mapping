@@ -18,9 +18,15 @@
 //std/stl
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 //nsw
 class DetectorConfig;
+
+namespace nsw_map {
+    // { BOARD IP : BOARD ID }
+    typedef std::unordered_map<std::string, int> boardIpToIdMap;
+}; // namespace
 
 class DaqConfiguration {
 
@@ -36,8 +42,15 @@ class DaqConfiguration {
         std::string daqConfigFile() { return m_daq_config_file; }
 
         bool loadDetectorSetup();
+        bool checkSetup();
+        bool checkLoadedDetectors();
+        bool checkLoadedModules();
+        bool checkLoadedLayers();
+        bool checkLoadedConnectors();
+        bool checkLoadedBoards();
 
         DetectorConfig& detConfig() { return *m_detConfig; }
+        nsw_map::boardIpToIdMap& boardMap() { return m_boardMap; }
 
     private :
         bool m_dbg;
@@ -45,6 +58,9 @@ class DaqConfiguration {
         std::string m_daq_config_file;
 
         DetectorConfig* m_detConfig;
+
+        // map of loaded boards
+        nsw_map::boardIpToIdMap m_boardMap;
 
 
 }; // class

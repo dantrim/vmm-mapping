@@ -42,6 +42,7 @@ class DetectorConfig {
         std::string name() { return m_name; }
 
         std::vector<Detector>& detectors() { return m_detectors; };
+        int nDetectors() { return (int)m_detectors.size(); }
 
     private :
         bool m_dbg;

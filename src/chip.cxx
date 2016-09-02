@@ -41,7 +41,7 @@ bool Chip::load(string type_, int id, int parent_board_id)
         ok = false;
     }
     if(m_id>=8) {
-        cout << "Chip::load    ERROR chip id is >=8 (8 is the max!)" << endl;
+        cout << "Chip::load    ERROR chip id is >=8 (8 is the absolute max!)" << endl;
         ok = false;
     }
     if(m_parent_board_id<0) {

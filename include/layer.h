@@ -30,6 +30,7 @@ class Layer {
         bool load(const boost::property_tree::ptree::value_type pt);
 
         std::vector<Connector>& connectors() { return m_connectors; }
+        int nConnectors() { return (int)m_connectors.size(); }
 
 
     private :

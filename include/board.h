@@ -43,9 +43,9 @@ class Board {
         std::string type() { return m_type; }
         std::string name() { return m_name; }
         std::string chipType() { return m_chip_type; }
-        int nChips() { return n_chip_count; }
 
         std::vector<Chip>& chips() { return m_chips; }
+        int nChips() { return (int)m_chips.size(); }
 
     private :
         bool m_dbg;

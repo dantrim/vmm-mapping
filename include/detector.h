@@ -43,8 +43,10 @@ class Detector {
         bool load(const boost::property_tree::ptree::value_type pt);
 
         std::string name() { return m_name; }
+        std::string identifier() { return m_identifier; }
 
         std::vector<Module>& modules() { return m_modules; }
+        int nModules() { return (int)m_modules.size(); }
 
     private :
         bool m_dbg;
@@ -52,6 +54,7 @@ class Detector {
         std::string m_map_dir;
 
         std::string m_name;
+        std::string m_identifier;
 
         std::vector<Module> m_modules;
 

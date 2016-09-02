@@ -16,7 +16,7 @@
                 <element_count> 256 </element_count>
                 <!-- ### ========= connector ========== ### -->
                 <connector id="0">
-                    <!-- element tag is <type>.<element> -->
+                    <!-- element tag is <type>.<element_type> -->
                     <type> MM </type>
                     <element_type> strips </element_type>
                     <!-- ### ============= board =============== ### -->

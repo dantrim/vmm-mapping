@@ -103,8 +103,14 @@ bool Connector::load(const boost::property_tree::ptree::value_type pt)
                     }
                     Board tmpBoard;
                     tmpBoard.setDebug(m_dbg);
-                    if(!tmpBoard.load(v)) ok = false;
-                    if(ok) m_board = tmpBoard;
+                    if(!tmpBoard.load(v)) { 
+                        ok = false;
+                        m_board_loaded = false;
+                    }
+                    if(ok) { 
+                        m_board = tmpBoard;
+                        m_board_loaded = true;
+                    }
                 }
 
 

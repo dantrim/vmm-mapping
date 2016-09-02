@@ -28,11 +28,13 @@ class Module {
 
         std::string name() { return m_name; }
         std::string type() { return m_type; }
+        std::string identifier() { return m_identifier; }
 
         void setMapDir(std::string mapdir) { m_map_dir = mapdir; }
         std::string mapDir() { return m_map_dir; }
 
         std::vector<Layer>& layers() { return m_layers; }
+        int nLayers() { return (int)m_layers.size(); }
 
     private :
         bool m_dbg;
@@ -40,6 +42,7 @@ class Module {
         std::string m_map_dir;
         std::string m_name;
         std::string m_type;
+        std::string m_identifier;
 
         std::vector<Layer> m_layers;
 
