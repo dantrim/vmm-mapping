@@ -28,6 +28,14 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    cout << "first IP " << handler->firstIP() << endl;
+    cout << "board ID from " << handler->firstIP() << ": " << handler->boardIDfromIP(handler->firstIP()) << endl;
+    // name of chip on board id 0, vmm 2
+    cout << "chip name [0][2] " << handler->chipName(0, 2) << endl;
+    // element # for board 0, vmm id 3, vmm channel 61
+    cout << "strip # for [0][3][61] : " << handler->elementNumber(0,3,61) << endl;
+
+
     
     return 0;
 }

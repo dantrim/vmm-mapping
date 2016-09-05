@@ -53,8 +53,29 @@ class MapHandler
         DaqConfiguration& config() { return *m_daqConfig; }
 
         bool buildMapping();
+        bool mapLoaded() { return m_map_loaded; }
+
+        ///////////////////////////////////////////////
+        // convenience methods
+        ///////////////////////////////////////////////
 
         std::vector<nsw_map::boardContentMap>& boardContents() { return m_board_contents; }
+
+        // return the IP for the board with id 0
+        std::string firstIP();
+
+
+        // get the board ID from the packet IP
+        int boardIDfromIP(std::string ip_string);
+
+        // obtain the board channel provided the vmm id, vmm channel
+        int boardChannel(int boardId, int vmmId, int vmmChan);
+
+        // obtain the element number provided the board ID, vmm id, vmm channel
+        int elementNumber(int boardId, int vmmId, int vmmChan);
+
+        // get the name of the VMM on board boardID_ with vmm id ID_
+        std::string chipName(int boardID_, int ID_);
 
 
     private :
@@ -63,6 +84,8 @@ class MapHandler
         bool m_map_loaded;
 
         DaqConfiguration* m_daqConfig;
+
+        bool isValidBoardId(int id);
 
         nsw_map::febIdToChannelMap m_daq_map;
 
