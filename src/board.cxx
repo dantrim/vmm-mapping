@@ -99,7 +99,8 @@ bool Board::load(const boost::property_tree::ptree::value_type pt)
     /////////////////////////////////////////////////////
     // set full name of this board
     stringstream fullname;
-    fullname << "FE." << (id()>9 ? "" : "0") << id() << "." << type();
+    //fullname << "FE." << (id()>9 ? "" : "0") << id() << "." << type();
+    fullname << type() << "." << (id()>9 ? "" : "0") << id();
     m_name = fullname.str();
 
     /////////////////////////////////////////////////////
