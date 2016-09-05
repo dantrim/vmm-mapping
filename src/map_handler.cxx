@@ -8,6 +8,9 @@
 #include <iostream>
 using namespace std;
 
+//boost
+#include <boost/tokenizer.hpp>
+
 
 //////////////////////////////////////////////////////////////////////////////
 // ------------------------------------------------------------------------ //
@@ -57,7 +60,7 @@ bool MapHandler::buildMapping()
     bool ok = true;
 
     if(!m_initialized) {
-        cout << "MapHandler::buildMapping    Detector setup has not yet been loaded (MapHandler::loadDaqConfiguration). Cannot build mapping!" << endl;
+        cout << "MapHandler::buildMapping    Detector setup has not yet been loaded (c.f. MapHandler::loadDaqConfiguration). Cannot build mapping!" << endl;
         return false;
     }
 
@@ -164,17 +167,108 @@ bool MapHandler::buildMapping()
 
     //cout << m_daq_map[0][166].vmmId() << "  " << m_daq_map[0][166].vmmChan() << "  " << m_daq_map[0][166].elementNumber() << "  " << m_daq_map[0][166].boardType() << "  " << m_daq_map[0][166].chipName() << "  " << m_daq_map[0][166].elementType() << "  " << m_daq_map[0][166].elementTypeStr() << endl;
 
+    // now sort the board_contents by board Id
+    sortBoardContents(); 
+
+
 
     m_map_loaded = ok;
 
     return ok;
 }
 // ------------------------------------------------------------------------ //
+struct boardIdSmaller {
+    bool operator()(std::string a, std::string b) { return (MapHandler::getBoardIdFromName(a) < MapHandler::getBoardIdFromName(b)); }
+} byBoardId;
+void MapHandler::sortBoardContents()
+{
+    vector<nsw_map::boardContentMap> tmpMap_vector;
+
+    vector<string> board_names;
+    for(auto boardidmap : boardContents()) {
+        for(auto boardid : boardidmap) {
+            board_names.push_back(boardid.first);
+        }
+    }
+    //cout << "***** BEFORE ***** " << endl;
+    //for(auto boardname : board_names) {
+    //    cout << boardname << endl;
+    //}
+    
+    std::sort(board_names.begin(), board_names.end(), byBoardId);
+    //cout << "***** AFTER ***** " << endl;
+    //for(auto boardname : board_names) {
+    //    cout << boardname << endl;
+    //}
+
+    // now fill the contents sorted by board ID smaller to larger
+    for(auto boardname : board_names) {
+        for(auto boardidmap : boardContents()) {
+            for(auto boardid : boardidmap) {
+                if(boardid.first==boardname) {
+                    nsw_map::boardContentMap tmpMap;
+                    vector<string> vmm_names;
+                    for(auto vmmname : boardid.second) {
+                        vmm_names.push_back(vmmname);
+                    }
+                    tmpMap[boardname] = vmm_names; 
+                    tmpMap_vector.push_back(tmpMap);
+                } // at the board we are looking for
+            } // boardid
+        } // boardidmap
+    } // boardname
+
+    // clear the old one
+    m_board_contents.clear();
+    // assign the new, sorted one
+    m_board_contents = tmpMap_vector;
+}
+// ------------------------------------------------------------------------ //
+int MapHandler::getBoardIdFromName(string boardname)
+{
+    // this method expects that the board naming convention is:
+    // <type>.XX
+    // where XX is the board ID and type is, e.g. 'MMFE8'
+
+    typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+    boost::char_separator<char> sep(".");
+    tokenizer tokens(boardname, sep);
+    int which = 0;
+    int out = -1;
+    try{
+        for(auto tok : tokens) {
+            if(which==1) out = stoi(tok);
+            which++;
+        }
+    } // try
+    catch(std::exception& e) {
+        cout << "MapHandler::getBoardIdFromName    Exception caught in extracting board ID from board with"
+             << " with name " << boardname << " (return -1)" << endl;
+        out = -1;
+    }
+    return out;
+    
+}
+// ------------------------------------------------------------------------ //
+int MapHandler::numberOfBoards()
+{
+    int out = 0;
+    if(!m_initialized) {
+        cout << "MapHandler::numberOfBoards    WARNING Detector setup has not yet been loaded (c.f. MapHandler::loadDaqConfiguration). Cannot return number of boards!" << endl;
+    }
+    else {
+        for(auto& boardMap : m_daqConfig->boardMap()) {
+            out++;
+        } // boardMap
+    }
+    return out;
+}
+// ------------------------------------------------------------------------ //
 string MapHandler::firstIP()
 {
     string out = "0.0.0.0";
-    if(!mapLoaded()) {
-        cout << "MapHandler::firstIP    WARNING Map is not yet loaded. Cannot return requested IP" << endl;
+    if(!m_initialized) {
+        cout << "MapHandler::firstIP    WARNING Detector setup has not yet been loaded (c.f. MapHandler::loadDaqConfiguration). Cannot return requested IP!" << endl;
         return out;
     }
 
@@ -297,7 +391,7 @@ string MapHandler::chipName(int boardId_, int vmmId_)
 
             for(auto& boardMap : m_daqConfig->boardMap()) {
                 int boardId = boardMap.second;
-                if( !(boardId==boardId) ) continue;
+                if( !(boardId==boardId_) ) continue;
                 for(auto& detector : m_daqConfig->detConfig().detectors()) {
                     if(!detector.hasBoardId(boardId)) continue;
 

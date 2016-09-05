@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
     cout << "test mapping" << endl;
 
     MapHandler* handler = new MapHandler();
-    handler->loadDaqConfiguration("/Users/dantrim/workarea/NSW/myreadout/NEWMAPPING/testMapping/DAQ_config_TZ.xml");
+    handler->loadDaqConfiguration("/Users/dantrim/workarea/NSW/myreadout/vmm-mapping/DAQ_config_TZ.xml");
     handler->buildMapping();
 
 
@@ -28,6 +28,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    cout << "number of boards " << handler->numberOfBoards() << endl;
     cout << "first IP " << handler->firstIP() << endl;
     cout << "board ID from " << handler->firstIP() << ": " << handler->boardIDfromIP(handler->firstIP()) << endl;
     // name of chip on board id 0, vmm 2

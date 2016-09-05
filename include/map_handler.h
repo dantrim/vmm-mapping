@@ -49,6 +49,9 @@ class MapHandler
         MapHandler();
         virtual ~MapHandler(){};
 
+        void setDebug(bool doit) { m_dbg = doit; }
+        bool dbg() { return m_dbg; }
+
         bool loadDaqConfiguration(std::string filename);
         DaqConfiguration& config() { return *m_daqConfig; }
 
@@ -60,6 +63,8 @@ class MapHandler
         ///////////////////////////////////////////////
 
         std::vector<nsw_map::boardContentMap>& boardContents() { return m_board_contents; }
+        void sortBoardContents();
+        static int getBoardIdFromName(std::string boardNameStr);
 
         // return the IP for the board with id 0
         std::string firstIP();
@@ -76,6 +81,9 @@ class MapHandler
 
         // get the name of the VMM on board boardID_ with vmm id ID_
         std::string chipName(int boardID_, int ID_);
+
+        // get the number of front end boards (that have separate IPs)
+        int numberOfBoards();
 
 
     private :
