@@ -23,6 +23,8 @@ class DaqConfiguration;
 //std/stl
 #include <string>
 #include <unordered_map>
+#include <map>
+#include <vector>
 
 
 #warning MAP TYPES COMMENTED OUT
@@ -31,6 +33,12 @@ namespace nsw_map {
     typedef std::unordered_map<int, Element> febChanToElementMap;
     // { FEB ID : { febChanToElementMap } }
     typedef std::unordered_map<int, febChanToElementMap> febIdToChannelMap;
+
+    // container type for building up list of board > [chip] needed
+    // for the monitoring to build up its tree
+    // { BOARD NAME : vector<VMMNAME> }
+    typedef std::map<std::string, std::vector<std::string> > boardContentMap;
+
 }
 
 
@@ -46,6 +54,8 @@ class MapHandler
 
         bool buildMapping();
 
+        std::vector<nsw_map::boardContentMap>& boardContents() { return m_board_contents; }
+
 
     private :
         bool m_dbg;
@@ -56,6 +66,7 @@ class MapHandler
 
         nsw_map::febIdToChannelMap m_daq_map;
 
+        std::vector<nsw_map::boardContentMap> m_board_contents;
 
 }; // class
 

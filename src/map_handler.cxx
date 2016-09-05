@@ -79,6 +79,15 @@ bool MapHandler::buildMapping()
                         if(!connector.hasBoardId(boardId)) continue;
 
 
+                        // fill the contents for building up the monitoring tree
+                        nsw_map::boardContentMap tmpMap;
+                        vector<string> vmm_names;
+                        for(auto chip : connector.board().chips()) {
+                            vmm_names.push_back(chip.name());
+                        }
+                        tmpMap[connector.board().name()] = vmm_names;
+                        m_board_contents.push_back(tmpMap);
+
                         // loop over VMM
                         for(auto& vmm : connector.elxMap()) {
                             int vmm_id = std::get<0>(vmm);
