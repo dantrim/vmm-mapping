@@ -56,6 +56,11 @@ bool MapHandler::buildMapping()
 {
     bool ok = true;
 
+    if(!m_initialized) {
+        cout << "MapHandler::buildMapping    Detector setup has not yet been loaded (MapHandler::loadDaqConfiguration). Cannot build mapping!" << endl;
+        return false;
+    }
+
     int n_element_loaded = 0;
     // loop over boards
     nsw_map::febIdToChannelMap id_map;
